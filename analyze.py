@@ -35,12 +35,15 @@ Ymax = round10( max( D[1] ) )
 
 # Get number of cells and Divide into them
 Visited = []
+TimeAtPosition = []
 Xsize = Xmax /10
 Ysize = Ymax /10
 for i in range(Xsize) :
 	Visited.append([])
+	TimeAtPosition.append([])
 	for j in range(Ysize) :
 		Visited[i].append([])
+		TimeAtPosition[i].append([])
 
 AtPosition = []
 PositionChange = [-1]
@@ -48,11 +51,17 @@ PositionChange = [-1]
 for i, (x, y) in enumerate( zip(D[0], D[1]) ) :
 	currentX = int( x/10 )
 	currentY = int( y/10 )
-	Visited[currentX][currentY].append(T[i])
+	TimeAtPosition[currentX][currentY].append(T[i])
 	AtPosition.append( (currentX, currentY) )
 	# if last position differ from current one add | otherwise skip
 	if PositionChange[-1] != (currentX, currentY) :
 		PositionChange.append( (currentX, currentY) )
+	# check if visited and so make something
+	if Visited[currentX][currentY] == [] :
+		Visited[currentX][currentY].append(0)
+	if Visited[currentX][currentY] == [0] :
+		Visited[currentX][currentY][-1] = 1
+
 
 # print PositionChange
 plt.figure(1)
@@ -65,6 +74,17 @@ for x in PositionChange :
 	if x ==-1 :
 		continue
 	plt.plot(x[0], x[1], 'o')
+plt.show()
+
+print len(PositionChange)
+
+plt.figure(2)
+for i in range(Xsize) :
+	for j in range(Ysize) :
+		if Visited[i][j] == [0] :
+			plt.plot(i, j, 'or')
+		else :
+			plt.plot(i, j, 'og')
 plt.show()
 
 # or give just order of squares as a list --- which shuare [ square(1,1), (1,2), etc.. ]
