@@ -61,8 +61,10 @@ plt.figure(1)
 # plt.title('Spiking Integrate-and-Fire Model')
 # plt.axis([ 0, 1, -0.075, -0.035 ])
 # plt.savefig("figure1.png", dpi=300, pad_inches=0.2)
-for (x, y) in PositionChange :
-	plt.plot(x,y)
+for x in PositionChange :
+	if x ==-1 :
+		continue
+	plt.plot(x[0], x[1], 'o')
 plt.show()
 
 # or give just order of squares as a list --- which shuare [ square(1,1), (1,2), etc.. ]
