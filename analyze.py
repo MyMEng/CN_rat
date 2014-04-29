@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 
 # Globals definitions
-Resolution = 20
+Resolution = 25
 
 
 # Function definitions
@@ -32,6 +32,12 @@ def maxDiff( L ) :
 			maxDiff = d
 	return maxDiff
 
+# detrend time series
+def detrend( Visited ) :
+	Vdt = []
+	for i in range(1,len(Visited)) :
+		Vdt.append(Visited[i] - Visited[i-1])
+	return Vdt
 
 # Load data
 #  for loading neuron 1 - 4 and time
@@ -107,11 +113,7 @@ for i, (x, y) in enumerate( zip(D[0], D[1]) ) :
 		# Just appended new one: check whether it already existed
 		if PositionChange[-1] in PositionChange[:-1] :
 			counter = PositionChange[:-1].count(PositionChange[-1])
-			if Visited[currentX][currentY] == [] :
-				Visited[currentX][currentY].append(0)
-			if Visited[currentX][currentY] == [0] :
-				Visited[currentX][currentY][-1] = 1
-
+			counter += 1
 			Visited.append(counter)
 		else :
 			Visited.append(1)
@@ -120,10 +122,10 @@ for i, (x, y) in enumerate( zip(D[0], D[1]) ) :
 	if Move :
 		FiringRate.append(Accum)
 		Move = False
-		if T[i] in M[3] :
+		if T[i] in M[2] :
 			Accum = 1
 	else :
-		if T[i] in M[3] :
+		if T[i] in M[2] :
 			Accum += 1
 
 
@@ -143,18 +145,21 @@ plt.show()
 
 print len(PositionChange)
 
-plt.figure(2)
-for i in range(Xsize) :
-	for j in range(Ysize) :
-		if Visited[i][j] == [0] :
-			plt.plot(i, j, 'or')
-		else :
-			plt.plot(i, j, 'og')
-plt.show()
+# plt.figure(2)
+# for i in range(Xsize) :
+# 	for j in range(Ysize) :
+# 		if Visited[i][j] == [0] :
+# 			plt.plot(i, j, 'or')
+# 		else :
+# 			plt.plot(i, j, 'og')
+# plt.show()
 
 plt.figure(3)
 lol = range(len(FiringRate))
-plt.plot(lol, FiringRate)
+plt.plot(lol, FiringRate, 'r')
+Visited1 = detrend(Visited)
+lol1 = range(len(Visited1))
+plt.plot(lol1, Visited1, 'g')
 plt.show()
 
 
