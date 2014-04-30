@@ -173,15 +173,15 @@ for i, (x, y) in enumerate( zip(D[0], D[1]) ) :
 # 			plt.plot(i, j, 'og')
 # plt.show()
 
-plt.figure(3)
-lol = range(len(FiringRate))
-plt.plot(lol, FiringRate, 'r')
-Visited1 = detrend(Visited)
-lol1 = range(len(Visited1))
-plt.plot(lol1, Visited1, 'g')
-# plt.plot(Visited)
-# plt.plot_surface(test3d[0], test3d[1], test3d[2])
-plt.show()
+# plt.figure(3)
+# lol = range(len(FiringRate))
+# plt.plot(lol, FiringRate, 'r')
+# Visited1 = detrend(Visited)
+# lol1 = range(len(Visited1))
+# plt.plot(lol1, Visited1, 'g')
+# # plt.plot(Visited)
+# # plt.plot_surface(test3d[0], test3d[1], test3d[2])
+# plt.show()
 
 
 
@@ -200,8 +200,13 @@ Z = griddata(test3d[0], test3d[1], test3d[2], xi, yi)
 # ha.plot_surface(X, Y, Z, rstride=5, cstride=5, cmap=cm.jet,
                         # linewidth=1, antialiased=True)
 
-p = ha.plot_surface(X, Y, Z, rstride=4, cstride=4, alpha=0.25, cmap=cm.coolwarm, linewidth=0, antialiased=False)
-# cb = fig.colorbar(p, shrink=0.5)
+# Get gradient to plot colours
+# Gx, Gy = np.gradient(Z) # gradients with respect to x and y
+# G = (Gx**2.0+Gy**2.0)**.5  # gradient magnitude
+# N = G/G.max()  # normalize 0..1
+N = Z/(Z.max()*1.0)
+
+# cb = hf.colorbar(p, shrink=0.5)
 
 cset = ha.contour(X, Y, Z, zdir='z', offset=-5, cmap=cm.coolwarm)
 cset = ha.contour(X, Y, Z, zdir='x', offset=max(xi), cmap=cm.coolwarm)
@@ -214,9 +219,17 @@ ha.set_zlim3d(-5, 18);
 for x in PositionChange :
 	if x ==-1 :
 		continue
-	ha.scatter(x[0], x[1], -5, c=c)
+	ha.scatter(x[0], x[1], -5)
+
+# azimuth -114 elevation 27
+# arrange angle and elevation
+ha.view_init(elev=27, azim=-114)
+
+p = ha.plot_surface(X, Y, Z, rstride=4, cstride=4, alpha=0.25, facecolors=cm.jet(N), cmap=cm.Oranges, linewidth=0, antialiased=False)
+
 
 plt.show()
+
 
 # or give just order of squares as a list ---
 #  which shuare [ square(1,1), (1,2), etc.. ]
