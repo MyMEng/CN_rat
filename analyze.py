@@ -5,10 +5,18 @@
 from math import ceil
 from pprint import pprint
 import matplotlib.pyplot as plt
+import numpy as np
+
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import cm
+import matplotlib.pyplot as plt
+from matplotlib.mlab import griddata
+import numpy as np
 
 
 # Globals definitions
-Resolution = 25
+Resolution = 15
+currentS=1
 
 
 # Function definitions
@@ -77,8 +85,10 @@ for i in range(Xsize) :
 	# Visited.append([])
 	TimeAtPosition.append([])
 	for j in range(Ysize) :
-		# Visited[i].append([])
+		# Visited[i].append(0)
 		TimeAtPosition[i].append([])
+
+test3d = [[],[],[]]
 
 AtPosition = []
 PositionChange = [-1]
@@ -121,29 +131,38 @@ for i, (x, y) in enumerate( zip(D[0], D[1]) ) :
 	# calculate firing rate for current square
 	if Move :
 		FiringRate.append(Accum)
+
+		# Visited[ PositionChange[-1][0] ][ PositionChange[-1][1] ]+=Accum
+		test3d[0].append(PositionChange[-1][0])
+		test3d[1].append(PositionChange[-1][1])
+		test3d[2].append(Accum)
+
 		Move = False
-		if T[i] in M[2] :
+		if T[i] in M[currentS] :
 			Accum = 1
+		else :
+			Accum = 0
+
 	else :
-		if T[i] in M[2] :
+		if T[i] in M[currentS] :
 			Accum += 1
 
 
 
 # print PositionChange
-plt.figure(1)
+# plt.figure(1)
 # plt.xlabel("time 't' in seconds")
 # plt.ylabel("voltage V in Volts")
 # plt.title('Spiking Integrate-and-Fire Model')
 # plt.axis([ 0, 1, -0.075, -0.035 ])
 # plt.savefig("figure1.png", dpi=300, pad_inches=0.2)
-for x in PositionChange :
-	if x ==-1 :
-		continue
-	plt.plot(x[0], x[1], 'o')
-plt.show()
+# for x in PositionChange :
+# 	if x ==-1 :
+# 		continue
+# 	plt.plot(x[0], x[1], 'o')
+# plt.show()
 
-print len(PositionChange)
+# print len(PositionChange)
 
 # plt.figure(2)
 # for i in range(Xsize) :
@@ -160,8 +179,44 @@ plt.plot(lol, FiringRate, 'r')
 Visited1 = detrend(Visited)
 lol1 = range(len(Visited1))
 plt.plot(lol1, Visited1, 'g')
+# plt.plot(Visited)
+# plt.plot_surface(test3d[0], test3d[1], test3d[2])
 plt.show()
 
+
+
+hf = plt.figure()
+ha = hf.add_subplot(111, projection='3d')
+# X, Y = numpy.meshgrid(test3d[0], test3d[1])  # `plot_surface` expects `x` and `y` data to be 2D
+# ha.plot_surface(X, Y, test3d[2], rstride=1, cstride=1, linewidth=0, antialiased=False)
+# plt.show()
+
+xi = np.linspace(min(test3d[0]), max(test3d[0]))
+yi = np.linspace(min(test3d[1]), max(test3d[1]))
+
+X, Y = np.meshgrid(xi, yi)
+Z = griddata(test3d[0], test3d[1], test3d[2], xi, yi)
+
+# ha.plot_surface(X, Y, Z, rstride=5, cstride=5, cmap=cm.jet,
+                        # linewidth=1, antialiased=True)
+
+p = ha.plot_surface(X, Y, Z, rstride=4, cstride=4, alpha=0.25, cmap=cm.coolwarm, linewidth=0, antialiased=False)
+# cb = fig.colorbar(p, shrink=0.5)
+
+cset = ha.contour(X, Y, Z, zdir='z', offset=-5, cmap=cm.coolwarm)
+cset = ha.contour(X, Y, Z, zdir='x', offset=max(xi), cmap=cm.coolwarm)
+cset = ha.contour(X, Y, Z, zdir='y', offset=max(yi), cmap=cm.coolwarm)
+
+# ax.set_xlim3d(-pi, 2*pi);
+# ax.set_ylim3d(0, 3*pi);
+ha.set_zlim3d(-5, 18);
+
+for x in PositionChange :
+	if x ==-1 :
+		continue
+	ha.scatter(x[0], x[1], -5, c=c)
+
+plt.show()
 
 # or give just order of squares as a list ---
 #  which shuare [ square(1,1), (1,2), etc.. ]
