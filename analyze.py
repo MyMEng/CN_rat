@@ -13,6 +13,8 @@ import matplotlib.pyplot as plt
 from matplotlib.mlab import griddata
 import numpy as np
 
+import time
+
 
 # Globals definitions
 Resolution = 15
@@ -46,6 +48,24 @@ def detrend( Visited ) :
 	for i in range(1,len(Visited)) :
 		Vdt.append(Visited[i] - Visited[i-1])
 	return Vdt
+
+# check for duplicates
+def unify(X, Y, Z) :
+	A, B, C = [], [], []
+	for x,y,z in zip(X, Y, Z) :
+		if x in A and y in B :
+			if A.index(x) == B.index(y) :
+				C[A.index(x)] += z
+			else :
+				A.append(x)
+				B.append(y)
+				C.append(z)
+		else :
+			A.append(x)
+			B.append(y)
+			C.append(z)
+	return (A, B, C)
+
 
 # Load data
 #  for loading neuron 1 - 4 and time
@@ -151,15 +171,21 @@ for i, (x, y) in enumerate( zip(D[0], D[1]) ) :
 
 
 # print PositionChange
+plt.ion()
 plt.figure(1)
 plt.xlabel("X coordinate")
 plt.ylabel("X coordinate")
 plt.title('Discretized maze')
 plt.axis([ -2, 22, -2, 16 ])
-for x in PositionChange :
+for i, x in enumerate(PositionChange) :
 	if x ==-1 :
 		continue
 	plt.plot(x[0], x[1], 'ko')
+	# plt.draw()
+	# time.sleep(0.1)
+	# if i%50 == 0 :
+		# plt.clf()
+		# plt.axis([ -2, 22, -2, 16 ])
 
 plt.savefig("figure1.png", dpi=300, pad_inches=0.2)
 plt.show()
@@ -185,6 +211,8 @@ for dd in range(6,10) :
 	# create a plot
 	hf = plt.figure(dd)
 	ha = hf.add_subplot(111, projection='3d')
+
+	test3d[dd-6][0], test3d[dd-6][1], test3d[dd-6][2] = unify( test3d[dd-6][0], test3d[dd-6][1], test3d[dd-6][2] )
 
 	# transform (X,Y,Z) to mesh grid
 	xi = np.linspace(min(test3d[dd-6][0]), max(test3d[dd-6][0]))

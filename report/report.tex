@@ -16,6 +16,11 @@
 \usepackage{lipsum}
 \usepackage{amsmath}
 
+% for multi figures
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+
 % \usepackage{hyperref}
 % \usepackage{graphicx}
 % \usepackage{subfigure}
@@ -52,103 +57,98 @@
 \end{@twocolumnfalse}
 ] % \lipsum[1]~\\[0.4cm]
 
-\section*{\texttt{Part 1}}
-Simulation of neuron based on \emph{Integrate and Fire} model:
-$$ \tau_m \frac{dV}{dt} = E_L - V + R_m I_e $$
-with parameters:\\
-$\tau_m = 10 \text{ [ms]}$~,~$E_L = V_{reset} = -70 \text{ [mV]}$~,\\
-$V_{th} = -40 \text{ [mV]}$~,~$R_m = 10 \text{ [M$\Omega$]}$~,\\
-$I_e = 3.1 \text{ [nA]}$~,~$DT = 1 \text{ [ms]}$~.
-
+\section*{\texttt{Experiment design}}
+Conducted experiment concerned path finding in the `\texttt{H}' shaped maze by a rat. The construction was divided into 4 main points top-left(TL), bottom-left(BL), top-right(TR) and bottom-right(BR). TL and BL were start points and TR, BR were were destination points, where correct destination(awarded with snack) was placed at the same height(top or bottom) as the chosen start point: \emph{T}L---\emph{T}R and \emph{B}L---\emph{B}R.\\
+\let\thefootnote\relax\footnote{Theta Rhythms Coordinate\\Hippocampal–--Prefrontal Interactions\\in a Spatial Memory Task\\Matthew W. Jones, Matthew A. Wilson}
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.5\textwidth]{figure1.png}
 % \begin{tiny}
-\caption{Simulation of \emph{Spiking Integrate and Fire} neuron model.\label{fig:part1}}
+\caption{Discretized maze.\label{fig:maze}}
 % \end{tiny}
 \vspace{0.2cm}
 \end{figure}
 
+We can divide the experiment into a number of stages:
+\begin{description}
+\item{\emph{Stage 1}} \hfill\\
+Rat begin in TL or BL and run toward left junction. The movable barrier is placed there to direct the animal into the central arm.
+\item{\emph{Stage 2}} \hfill\\
+The rat gets to the right junction---decision point---where it choses left or right turn.
+\item{\emph{Stage 3}} \hfill\\
+Only the choice which leads to the point at the same height as the starting position is awarded.
+\item{\emph{Stage 4}} \hfill\\
+After reaching TR or BR the rat returns to the right junction where another movable barrier is placed to direct the rat into central arm.
+\item{\emph{Stage 5}} \hfill\\
+The rat reaches left junction.
+\item{\emph{Stage 6}} \hfill\\
+The animal is directed to TL or BL randomly by moving barrier.
+\end{description}
 
-\section*{\texttt{Part 2}}
-\subsection*{\texttt{Part 2: a)}}
-\textbf{\large Finding attractor}\\
-To analytically compute minimum current $I_e$ required by neuron to produce a spike we set derivative to 0.\\
-$0=E_L-V^{\star} +R_mI_e$,\\
-$V^{\star} = E_L + R_mI_e$,\\
-and we need: $V^{\star} > V_{th}$ for neuron to fire,\\
-$E_L+R_mI_e > V_{th}$ hence,\\
-$I_e > \frac{V_{th} - E_L}{R_m}$\\
-With our parameters:\\
-$I_e > \frac{-40*10^{-3} - (-70)*10^{-3}}{10*10^6}$ hence:\\
-$I_e > 3 * 10^{-9}  \text{ [A]} = 3  \text{ [nA]}$.\\
 
-\subsection*{\texttt{Part 2: b)}}
-Simulating neuron with $I_e = 2.9 * 10^{-9}  \text{ [A]}$ leads to behavior shown below.\\
+\section*{\texttt{Decision making}}
+It is considered that Stages 1 \& 2 requires \emph{spatial working-memory}---the rat memorized starting position. By Stage 3 the decision which direction to follow on the right junction should be made. Stages 4--6 did not require working-memory as all turns were forced with barriers.\\
+
+\section*{\texttt{Analysis}}
+I performed analysis of firing rate based on rat's position for all 4 neurons. To smooth-out the movement I first performed discretization(see figure~\ref{fig:maze}) of X-Y space and match firing times to particular position on the plane.\\
+
+Figure~\ref{fig:FiringPosition_ALL} shows firing rate after each move for all 4 neurons. Sub-plot~\ref{fig:FiringPosition_N1} contains characteristic regular spikes---possibly place at the maze where a rat makes the call to its memory.\\
+Figure~\ref{fig:FiringPosition_N2} is characterized by a high activity at the beginning of the experiment---while new places are visited---and average number of spikes later on---when the parts of maze are re-visited. I guess that it corresponds to learning in the new environment; once the rat has adjusted to surrounding the neural activity lowers.\\
+Neuron~3(graph~\ref{fig:FiringPosition_N3}) behaves similarly to neuron~2(figure~\ref{fig:FiringPosition_N2})---it shows similar spacial learning behavior.\\
+Finally, graph~\ref{fig:FiringPosition_N4} presenting neuron~4, show high activity at the beginning and just after the midpoint. I think that it is caused by change in the maze setting---like different starting position.\\
 
 \begin{figure}[htbp]
-\centering
-\includegraphics[width=0.5\textwidth]{figure2.png}
-% \begin{tiny}
-\caption{Simulation of neuron with current $I_e$ being to small to cause spiking.\label{fig:part2b}}
-% \end{tiny}
-\vspace{0.2cm}
+  \begin{subfigure}{.49\linewidth}\centering
+    \includegraphics[width=1.1\textwidth]{figure2.png}
+    \caption{Neuron 1\label{fig:FiringPosition_N1}}
+  \end{subfigure}
+  \begin{subfigure}{.49\linewidth}\centering
+    \includegraphics[width=1.1\textwidth]{figure3.png}
+    \caption{Neuron 2\label{fig:FiringPosition_N2}}
+  \end{subfigure}\\[1ex]
+
+    \begin{subfigure}{.49\linewidth}\centering
+    \includegraphics[width=1.1\textwidth]{figure3.png}
+    \caption{Neuron 3\label{fig:FiringPosition_N3}}
+  \end{subfigure}
+  \begin{subfigure}{.49\linewidth}\centering
+    \includegraphics[width=1.1\textwidth]{figure4.png}
+    \caption{Neuron 4\label{fig:FiringPosition_N4}}
+  \end{subfigure}
+
+  \caption{Neurons firing rates based on position change of a rat.\label{fig:FiringPosition_ALL}}
 \end{figure}
 
-\section*{\texttt{Part 3}}
-Simulation of neuron for currents ranging from $2 \text{[nA]}$ to $5 \text{[nA]}$ in increments of $0.1 \text{[nA]}$ with count of number of spikes produced for each step.\\
-\begin{figure}[phtb]
-\centering
-\includegraphics[width=0.47\textwidth]{figure3.png}
-% \begin{tiny}
-\caption{Firing rate of neuron for given above range of currents.\label{fig:part3}}
-% \end{tiny}
-\vspace{0.2cm}
-\end{figure}
+After projecting neurons activity on the maze plot we can make more informative guesses regarding the role of each neuron and partially deduce its functionality.\\
 
-\section*{\texttt{Part 4}}
-\textbf{\large Differences between \emph{excitatory} and \emph{inhibitory} synapses}
-
-\subsection*{\texttt{Part 4: a)}}
-In first case where synapses are \emph{excitatory} the spikes tend to synchronise. The neuron with excitatory synapse causes other neuron to be more likely to fire at the same time. Both neurons synchronise because they are interconnected so when first one fires it causes that the second one is more likely to fire and the other way around.\\
+Figure~\ref{fig:3d_n1} can be interpreted as use of memory(first neuron). Once rat reaches right junction and is forced to make a turn it makes a call to memory to choose between TR and BR to get the reward.\\
 
 \begin{figure}[htbp]
-\centering
-\includegraphics[width=0.5\textwidth]{figure4.png}
-% \begin{tiny}
-\caption{Simulation of two interconnected neurons with excitatory synapses.\label{fig:part4a}}
-% \end{tiny}
-\vspace{0.2cm}
+  \begin{subfigure}{.99\linewidth}\centering
+    \includegraphics[width=1.1\textwidth]{figure6_a.png}
+    \caption{\label{fig:3d_n1_a}}
+  \end{subfigure}\\[1ex]
+  \begin{subfigure}{.99\linewidth}\centering
+    \includegraphics[width=1.1\textwidth]{figure6_b.png}
+    \caption{\label{fig:3d_n1_b}}
+  \end{subfigure}
+
+  \caption{Neuron 1---spatial activity.\label{fig:3d_n1}}
 \end{figure}
 
-\subsection*{\texttt{Part 4: b)}}
-On contrary, with both synapses being \emph{inhibitory} the spiking tends to diverge. The inhibitory synapse causes connected neuron to be less likely to fire at the same time. Spikes of both neurons diverge as firing of first one causes the second one to be less likely to fire at the same time so at some point the time between firing of one and the other will converge to maximal possible value(spikes maximally distant of each other).
+Neuron 2 which activity is plotted in the figure~\ref{fig:3d_n2}.\\
 
 \begin{figure}[htbp]
-\centering
-\includegraphics[width=0.5\textwidth]{figure5.png}
-% \begin{tiny}
-\caption{Simulation of two interconnected neurons with inhibitory synapses.\label{fig:part4b}}
-% \end{tiny}
-\vspace{0.2cm}
-\end{figure}
+  \begin{subfigure}{.99\linewidth}\centering
+    \includegraphics[width=1.1\textwidth]{figure7_a.png}
+    \caption{\label{fig:3d_n2_a}}
+  \end{subfigure}\\[1ex]
+  \begin{subfigure}{.99\linewidth}\centering
+    \includegraphics[width=1.1\textwidth]{figure7_b.png}
+    \caption{\label{fig:3d_n2_b}}
+  \end{subfigure}
 
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.5\textwidth]{figure6_a.png}
-% \begin{tiny}
-\caption{Simulation of two interconnected neurons with inhibitory synapses.\label{fig:part4b}}
-% \end{tiny}
-\vspace{0.2cm}
-\end{figure}
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.5\textwidth]{figure6_b.png}
-% \begin{tiny}
-\caption{Simulation of two interconnected neurons with inhibitory synapses.\label{fig:part4b}}
-% \end{tiny}
-\vspace{0.2cm}
+  \caption{Neuron 2---spatial activity.\label{fig:3d_n2}}
 \end{figure}
 
 
