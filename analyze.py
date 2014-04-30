@@ -88,12 +88,11 @@ for i in range(Xsize) :
 		# Visited[i].append(0)
 		TimeAtPosition[i].append([])
 
-test3d = [[],[],[]]
-
+test3d = [ [[],[],[]], [[],[],[]], [[],[],[]], [[],[],[]] ]
 AtPosition = []
 PositionChange = [-1]
-Accum = 0
-FiringRate = [-1]
+Accum = [0, 0, 0, 0]
+FiringRate = [ [-1], [-1], [-1], [-1] ]
 Move = False
 # put times at which the mouse was at given square
 for i, (x, y) in enumerate( zip(D[0], D[1]) ) :
@@ -130,110 +129,110 @@ for i, (x, y) in enumerate( zip(D[0], D[1]) ) :
 
 	# calculate firing rate for current square
 	if Move :
-		FiringRate.append(Accum)
+		for zc in range(4) :
+			FiringRate[zc].append(Accum[zc])
 
-		# Visited[ PositionChange[-1][0] ][ PositionChange[-1][1] ]+=Accum
-		test3d[0].append(PositionChange[-1][0])
-		test3d[1].append(PositionChange[-1][1])
-		test3d[2].append(Accum)
+			# Visited[ PositionChange[-1][0] ][ PositionChange[-1][1] ]+=Accum
+			test3d[zc][0].append(PositionChange[-1][0])
+			test3d[zc][1].append(PositionChange[-1][1])
+			test3d[zc][2].append(Accum[zc])
 
+			if T[i] in M[zc] :
+				Accum[zc] = 1
+			else :
+				Accum[zc] = 0
 		Move = False
-		if T[i] in M[currentS] :
-			Accum = 1
-		else :
-			Accum = 0
 
 	else :
-		if T[i] in M[currentS] :
-			Accum += 1
+		for zc in range(4) :
+			if T[i] in M[zc] :
+				Accum[zc] += 1
 
 
 
 # print PositionChange
-# plt.figure(1)
-# plt.xlabel("time 't' in seconds")
-# plt.ylabel("voltage V in Volts")
-# plt.title('Spiking Integrate-and-Fire Model')
-# plt.axis([ 0, 1, -0.075, -0.035 ])
-# plt.savefig("figure1.png", dpi=300, pad_inches=0.2)
-# for x in PositionChange :
-# 	if x ==-1 :
-# 		continue
-# 	plt.plot(x[0], x[1], 'o')
-# plt.show()
-
-# print len(PositionChange)
-
-# plt.figure(2)
-# for i in range(Xsize) :
-# 	for j in range(Ysize) :
-# 		if Visited[i][j] == [0] :
-# 			plt.plot(i, j, 'or')
-# 		else :
-# 			plt.plot(i, j, 'og')
-# plt.show()
-
-# plt.figure(3)
-# lol = range(len(FiringRate))
-# plt.plot(lol, FiringRate, 'r')
-# Visited1 = detrend(Visited)
-# lol1 = range(len(Visited1))
-# plt.plot(lol1, Visited1, 'g')
-# # plt.plot(Visited)
-# # plt.plot_surface(test3d[0], test3d[1], test3d[2])
-# plt.show()
-
-
-
-hf = plt.figure()
-ha = hf.add_subplot(111, projection='3d')
-# X, Y = numpy.meshgrid(test3d[0], test3d[1])  # `plot_surface` expects `x` and `y` data to be 2D
-# ha.plot_surface(X, Y, test3d[2], rstride=1, cstride=1, linewidth=0, antialiased=False)
-# plt.show()
-
-xi = np.linspace(min(test3d[0]), max(test3d[0]))
-yi = np.linspace(min(test3d[1]), max(test3d[1]))
-
-X, Y = np.meshgrid(xi, yi)
-Z = griddata(test3d[0], test3d[1], test3d[2], xi, yi)
-
-# ha.plot_surface(X, Y, Z, rstride=5, cstride=5, cmap=cm.jet,
-                        # linewidth=1, antialiased=True)
-
-# Get gradient to plot colours
-# Gx, Gy = np.gradient(Z) # gradients with respect to x and y
-# G = (Gx**2.0+Gy**2.0)**.5  # gradient magnitude
-# N = G/G.max()  # normalize 0..1
-N = Z/(Z.max()*1.0)
-
-# cb = hf.colorbar(p, shrink=0.5)
-
-cset = ha.contour(X, Y, Z, zdir='z', offset=-5, cmap=cm.coolwarm)
-cset = ha.contour(X, Y, Z, zdir='x', offset=max(xi), cmap=cm.coolwarm)
-cset = ha.contour(X, Y, Z, zdir='y', offset=max(yi), cmap=cm.coolwarm)
-
-# ax.set_xlim3d(-pi, 2*pi);
-# ax.set_ylim3d(0, 3*pi);
-ha.set_zlim3d(-5, 18);
-
+plt.figure(1)
+plt.xlabel("X coordinate")
+plt.ylabel("X coordinate")
+plt.title('Discretized maze')
+plt.axis([ -2, 22, -2, 16 ])
 for x in PositionChange :
 	if x ==-1 :
 		continue
-	ha.scatter(x[0], x[1], -5)
+	plt.plot(x[0], x[1], 'ko')
 
-# azimuth -114 elevation 27
-# arrange angle and elevation
-ha.view_init(elev=27, azim=-114)
-
-p = ha.plot_surface(X, Y, Z, rstride=4, cstride=4, alpha=0.25, facecolors=cm.jet(N), cmap=cm.Oranges, linewidth=0, antialiased=False)
-
-
+plt.savefig("figure1.png", dpi=300, pad_inches=0.2)
 plt.show()
 
 
-# or give just order of squares as a list ---
-#  which shuare [ square(1,1), (1,2), etc.. ]
+# Print firing rate along position change
+for i in range(2,6) :
+	plt.figure(i)
+	axe = range(len(FiringRate[i-2]))
+	plt.plot(axe, FiringRate[i-2], 'g')
+	plt.xlabel("Position change")
+	plt.ylabel("Firing rate")
+	plt.title('Firing rate along position change')
+		# Visited1 = detrend(Visited)
+		# lol1 = range(len(Visited1))
+		# plt.plot(lol1, Visited1, 'g')
+		# plt.plot(Visited)
+	plt.savefig("figure"+str(i)+".png", dpi=300, pad_inches=0.2)
+	plt.show()
 
-# check the position and remember whether mouse was already here if so check
-# the change of firing rate
+# Generate 3d plots
+for dd in range(6,10) :
+	# create a plot
+	hf = plt.figure(dd)
+	ha = hf.add_subplot(111, projection='3d')
 
+	# transform (X,Y,Z) to mesh grid
+	xi = np.linspace(min(test3d[dd-6][0]), max(test3d[dd-6][0]))
+	yi = np.linspace(min(test3d[dd-6][1]), max(test3d[dd-6][1]))
+	X, Y = np.meshgrid(xi, yi)
+	Z = griddata(test3d[dd-6][0], test3d[dd-6][1], test3d[dd-6][2], xi, yi)
+
+	# Get gradient to plot colours
+	Gx, Gy = np.gradient(Z)
+	G = ( Gx**2.0 + Gy**2.0 )**.5
+	N = G/G.max()
+	# N = Z/(Z.max()*1.0)
+
+	# plot contour
+	cset = ha.contour(X, Y, Z, zdir='z', offset=-5, cmap=cm.coolwarm)
+	cset = ha.contour(X, Y, Z, zdir='x', offset=max(xi), cmap=cm.coolwarm)
+	cset = ha.contour(X, Y, Z, zdir='y', offset=max(yi), cmap=cm.coolwarm)
+
+	# Set axis range
+	# ax.set_xlim3d(-pi, 2*pi);
+	# ax.set_ylim3d(0, 3*pi);
+	ha.set_zlim3d(-5, 18);
+
+	# Print position scatter
+	for x in PositionChange :
+		if x ==-1 :
+			continue
+		ha.scatter(x[0], x[1], -5)
+
+	# arrange angle and elevation
+	ha.view_init(elev=27, azim=-114)
+
+	# give names
+	ha.set_xlabel("X coordinate")
+	# plt.xlabel("X coordinate")
+	ha.set_ylabel("Y coordinate")
+	# plt.ylabel("Y coordinate")
+	ha.set_zlabel("Firing rate")
+	# plt.zlabel("Firing rate")
+	plt.title('Firing rate at given position')
+
+	# save before grid
+	plt.savefig("figure"+str(dd)+"_a.png", dpi=300, pad_inches=0.2)
+
+	p = ha.plot_surface(X, Y, Z, rstride=4, cstride=4, alpha=0.25, facecolors=cm.jet(N), cmap=cm.Oranges, linewidth=0, antialiased=False)
+	# cb = hf.colorbar(p, shrink=0.5)
+
+	# save after grid
+	plt.savefig("figure"+str(dd)+"_b.png", dpi=300, pad_inches=0.2)
+
+	plt.show()
