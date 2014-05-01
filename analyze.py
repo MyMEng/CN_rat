@@ -171,7 +171,7 @@ for i, (x, y) in enumerate( zip(D[0], D[1]) ) :
 
 
 # print PositionChange
-plt.ion()
+# plt.ion()
 plt.figure(1)
 plt.xlabel("X coordinate")
 plt.ylabel("X coordinate")
