@@ -229,9 +229,9 @@ for dd in range(6,10) :
 	# N = Z/(Z.max()*1.0)
 
 	# plot contour
-	cset = ha.contour(X, Y, Z, zdir='z', offset=-5, cmap=cm.coolwarm)
-	cset = ha.contour(X, Y, Z, zdir='x', offset=max(xi), cmap=cm.coolwarm)
-	cset = ha.contour(X, Y, Z, zdir='y', offset=max(yi), cmap=cm.coolwarm)
+	cset = ha.contour(X, Y, Z, zdir='z', offset=-5)#, cmap=cm.coolwarm)
+	cset = ha.contour(X, Y, Z, zdir='x', offset=max(xi))#, cmap=cm.coolwarm)
+	cset = ha.contour(X, Y, Z, zdir='y', offset=max(yi))#, cmap=cm.coolwarm)
 
 	# Set axis range
 	# ax.set_xlim3d(-pi, 2*pi);
@@ -239,10 +239,16 @@ for dd in range(6,10) :
 	ha.set_zlim3d(-5, 18);
 
 	# Print position scatter
+	xCur = []
+	yCur = []
 	for x in PositionChange :
 		if x ==-1 :
 			continue
-		ha.scatter(x[0], x[1], -5)
+		xCur.append(x[0])
+		yCur.append(x[1])
+	zCur = len(xCur)*[-5]
+
+	ha.scatter(xCur, yCur, zCur)
 
 	# arrange angle and elevation
 	ha.view_init(elev=27, azim=-114)
@@ -259,7 +265,7 @@ for dd in range(6,10) :
 	# save before grid
 	plt.savefig("figure"+str(dd)+"_a.png", dpi=300, pad_inches=0.2)
 
-	p = ha.plot_surface(X, Y, Z, rstride=4, cstride=4, alpha=0.25, facecolors=cm.jet(N), cmap=cm.Oranges, linewidth=0, antialiased=False)
+	p = ha.plot_surface(X, Y, Z, rstride=4, cstride=4, alpha=0.25, linewidth=0, antialiased=False)#, facecolors=cm.jet(N), cmap=cm.Oranges)
 	# cb = hf.colorbar(p, shrink=0.5)
 
 	# save after grid
