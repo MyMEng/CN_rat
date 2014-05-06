@@ -211,7 +211,7 @@ for dd in range(6,10) :
 	# create a plot
 	hf = plt.figure(dd)
 
-	ha = hf.add_subplot(111, projection='3d') # to new matlibplot
+	# ha = hf.add_subplot(111, projection='3d') # to new matlibplot
 	ha = Axes3D(hf)
 
 	test3d[dd-6][0], test3d[dd-6][1], test3d[dd-6][2] = unify( test3d[dd-6][0], test3d[dd-6][1], test3d[dd-6][2] )
