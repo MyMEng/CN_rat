@@ -56,3 +56,4 @@ docs/_build/
 *.zip
 *.pdf
 *.aux
+figure*.png

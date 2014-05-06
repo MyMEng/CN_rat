@@ -2,7 +2,7 @@
 % include a brief discussion about how the limitation of leaf instances affects
 % the performance of the decision tree algorithm.
 
-\documentclass[12pt,a4paper,twocolumn]{article}
+\documentclass[11pt,a4paper,twocolumn]{article}
 \usepackage{times} % times font
 \usepackage{mathptmx} % times font in maths
 % \usepackage{fullpage}
@@ -38,7 +38,7 @@
 \begin{center}
 	\begin{large}
 	{\HRule \\[0.2cm]}
-	\textsc{Firing rate analysis based on current mouse position}
+	\textsc{Firing rate analysis based on current rat position}
 	{\HRule \\[0.3cm]}
 	\end{large}
 
@@ -59,7 +59,7 @@
 ] % \lipsum[1]~\\[0.4cm]
 
 \section*{\texttt{Experiment design}}
-Conducted experiment concerned path finding in the `\texttt{H}' shaped maze by a rat. The construction was divided into 4 main points top-left(TL), bottom-left(BL), top-right(TR) and bottom-right(BR). TL and BL were start points and TR, BR were destination points, where correct destination(awarded with snack) was placed at the same height(top or bottom) as the chosen start point: \emph{T}L---\emph{T}R and \emph{B}L---\emph{B}R.\\
+Conducted experiment concerned path finding in the `\texttt{H}' shaped maze by a rat. The construction was divided into 4 main parts top-left(TL), bottom-left(BL), top-right(TR) and bottom-right(BR). TL and BL were start points and TR, BR were destination points, where correct destination(awarded with a snack) was placed at the same height(top or bottom) as the chosen start point: \emph{T}L---\emph{T}R and \emph{B}L---\emph{B}R.\\
 \let\thefootnote\relax\footnote{Theta Rhythms Coordinate\\Hippocampal–--Prefrontal Interactions\\in a Spatial Memory Task\\Matthew W. Jones, Matthew A. Wilson}
 \begin{figure}[htbp]
 \centering
@@ -77,18 +77,18 @@ Rat begin in TL or BL and run toward left junction. The movable barrier is place
 \item{\emph{Stage 2}} \hfill\\
 The rat gets to the right junction---decision point---where it choses left or right turn.
 \item{\emph{Stage 3}} \hfill\\
-Only the choice which leads to the point at the same height as the starting position is awarded.
+Only the choice which leads to the point at the same height as the starting position is rewarded.
 \item{\emph{Stage 4}} \hfill\\
 After reaching TR or BR the rat returns to the right junction where another movable barrier is placed to direct the rat into central arm.
 \item{\emph{Stage 5}} \hfill\\
 The rat reaches left junction.
 \item{\emph{Stage 6}} \hfill\\
-The animal is directed to TL or BL randomly by moving barrier.
+The animal is directed to TL or BL randomly by movable barrier.
 \end{description}
 
 
 \section*{\texttt{Decision making}}
-It is considered that Stages 1 \& 2 requires \emph{spatial working-memory}---the rat memorized starting position. By Stage 3 the decision which direction to follow on the right junction should be made. Stages 4--6 did not require working-memory as all turns were forced with barriers.\\
+It is considered that Stages 1 \& 2 require \emph{spatial working-memory}---the rat memorizes starting position. By Stage 3 the decision which direction to follow on the right junction should be made. Stages 4--6 did not require working-memory as all turns were forced with barriers.\\
 
 \begin{figure}[htbp]
   \begin{subfigure}{.49\linewidth}\centering
@@ -113,7 +113,7 @@ It is considered that Stages 1 \& 2 requires \emph{spatial working-memory}---the
 \end{figure}
 
 \section*{\texttt{Analysis}}
-I performed analysis of firing rate based on rat's position for all 4 neurons. To smooth-out the movement I first performed discretization(see figure~\ref{fig:maze}) of X-Y space and match firing times to particular position on the plane.\\
+I performed analysis of firing rate based on rat's position for all 4 neurons. To smooth-out the movement I first performed discretization(see figure~\ref{fig:maze}) of X--Y space and match firing times to particular position on the plane.\\
 
 \begin{figure}[h]
   \begin{subfigure}{.99\linewidth}\centering
@@ -128,10 +128,10 @@ I performed analysis of firing rate based on rat's position for all 4 neurons. T
   \caption{Neuron 1---spatial activity.\label{fig:3d_n1}}
 \end{figure}
 
-Figure~\ref{fig:FiringPosition_ALL} shows firing rate after each move for all 4 neurons. Sub-plot~\ref{fig:FiringPosition_N1} contains characteristic regular spikes---possibly place at the maze where a rat makes the call to its memory.\\
-Figure~\ref{fig:FiringPosition_N2} is characterized by a high activity at the beginning of the experiment---while new places are visited---and average number of spikes later on---when the parts of maze are re-visited. I guess that it corresponds to learning in the new environment; once the rat has adjusted to surrounding the neural activity lowers.\\
+Figure~\ref{fig:FiringPosition_ALL} shows firing rate after each move for all 4 neurons. Sub-plot~\ref{fig:FiringPosition_N1} contains characteristic regular spikes---possibly place at the maze where the rat makes the call to its memory.\\
+Figure~\ref{fig:FiringPosition_N2} is characterized by a high activity at the beginning of the experiment---while new places are visited---and average number of spikes later on---when parts of the maze are re-visited. I guess that it corresponds to learning in the new environment; once the rat has adjusted to surrounding the neural activity lowers.\\
 Neuron~3(graph~\ref{fig:FiringPosition_N3}) behaves similarly to neuron~2(figure~\ref{fig:FiringPosition_N2})---it shows similar spacial learning behavior.\\
-Finally, graph~\ref{fig:FiringPosition_N4} presenting neuron~4, shows high activity at the beginning and just after the midpoint. I think that it is caused by change in the maze setting---like different starting position.\\
+Finally, graph~\ref{fig:FiringPosition_N4} presenting neuron~4, shows high activity at the beginning and just after the midpoint. I think that it is caused by change in the maze setting---like different starting positions forced by movable barrier.\\
 
 After projecting neurons activity on the maze plot we can make more informative guesses regarding the role of each neuron and partially deduce its functionality.\\
 
@@ -148,11 +148,11 @@ After projecting neurons activity on the maze plot we can make more informative 
   \caption{Neuron 2---spatial activity.\label{fig:3d_n2}}
 \end{figure}
 
-Figure~\ref{fig:3d_n1} can be interpreted as use of memory(first neuron). Once rat reaches right junction and is forced to make a turn it makes a call to memory to choose between TR and BR to get the reward.\\
+Figure~\ref{fig:3d_n1} can be interpreted as use of memory(first neuron). Once the rat reaches right junction and it is forced to make a turn it makes a call to memory to choose between TR and BR to get the reward, or to learn dependencies between left junction and right junction choices.\\
 
-Neuron 2 which activity is plotted in the figure~\ref{fig:3d_n2} corresponds to memorizing initial turn at the left junction forced by a removable barrier. Once the turn is made the rat memorizes the ``choice'' to make a rewarded decision at the right junction.\\
+Neuron 2 which activity is plotted in the figure~\ref{fig:3d_n2} corresponds to memorizing initial turn at the left junction forced by a movable barrier. Once the turn is made the rat memorizes the ``choice'' to make a rewarded decision at the right junction.\\
 
-Figure~\ref{fig:3d_n3}, presenting neuron 3 activity, shows high spiking rates at the reward points---TR and BR. These neuron spikes triggered by reward seems to reinforce learning effect probably by linking choices at left and right junctions.\\
+Figure~\ref{fig:3d_n3}, presenting activity of neuron 3, shows high spiking rates at the reward points---TR and BR. These neuron spikes triggered by the reward seems to reinforce learning effect probably by linking choices at left and right junctions.\\
 
 \begin{figure}[htbp]
   \begin{subfigure}{.99\linewidth}\centering
@@ -167,7 +167,7 @@ Figure~\ref{fig:3d_n3}, presenting neuron 3 activity, shows high spiking rates a
   \caption{Neuron 3---spatial activity.\label{fig:3d_n3}}
 \end{figure}
 
-Figure~\ref{fig:3d_n4}, which plots the activity of neuron 4, seems to be active in a similar place as neuron 2. This means that it is also responsible for forced, left junction turn needed to make rewarded choice later in the experiment.\\
+Figure~\ref{fig:3d_n4}, which plots the activity of neuron 4, seems to be active in a similar place as neuron 2. This means that it is also responsible for forced left junction turn needed to make rewarded choice later in the experiment.\\
 
 \begin{figure}[htbp]
   \begin{subfigure}{.99\linewidth}\centering
@@ -183,7 +183,7 @@ Figure~\ref{fig:3d_n4}, which plots the activity of neuron 4, seems to be active
 \end{figure}
 
 \section*{\texttt{Conclusions}}
-Neurons 2 \& 4 seem to correspond to memorizing the turn made(forced by a barrier) at left junction. Neuron 1 is responsible for decision making at right junction based on previously memorized left junction choice. Neuron 3 acts like a factor which reinforces learning by spiking at the reward points.\\
+Neurons 2 \& 4 seem to correspond to memorizing the turn made(forced by a barrier) at left junction and making a decision at the right junction. Neuron 1 is responsible for decision making at the right junction based on previously memorized left junction ``choice''. Neuron 3 acts like a factor which reinforces learning by spiking at the reward points.\\
 All in all, system based on 4 aforementioned neurons allow rat to memorize initial turn and match---by means of the reward---corresponding direction choice at the next junction. Rat seems to move across designed maze as intended by authors of the experiment.\\
 
 \end{document}

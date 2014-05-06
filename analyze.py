@@ -174,7 +174,7 @@ for i, (x, y) in enumerate( zip(D[0], D[1]) ) :
 # plt.ion()
 plt.figure(1)
 plt.xlabel("X coordinate")
-plt.ylabel("X coordinate")
+plt.ylabel("Y coordinate")
 plt.title('Discretized maze')
 plt.axis([ -2, 22, -2, 16 ])
 for i, x in enumerate(PositionChange) :
